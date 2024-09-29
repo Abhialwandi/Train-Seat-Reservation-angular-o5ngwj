@@ -1,0 +1,45 @@
+<h1>Train Seat Reservation System</h1>
+<!--<p>Click a seat to reserve/unreserve it:</p>-->
+
+<!-- Display Seats -->
+<div class="container">
+  <div
+    *ngFor="let seat of seats"
+    [ngClass]="{ available: seat.isAvailable, reserved: !seat.isAvailable }"
+    class="seat"
+    (click)="toggleSeat(seat)"
+  >
+    {{ seat.number }}
+  </div>
+</div>
+
+<!-- Form to book seats -->
+<label for="seats">Number of Seats to Reserve (1-7):</label>
+<input id="seats" type="number" #seatsInput min="1" max="7" />
+<button (click)="bookSeats(seatsInput.value)">Book Seats</button>
+
+<!-- Display Booked Seats -->
+<div *ngIf="bookedSeats.length > 0">
+  <h3>Booked Seats:</h3>
+  <ul>
+    <li *ngFor="let seat of bookedSeats">{{ seat }}</li>
+  </ul>
+</div>
+<h1>Available Seats</h1>
+<ul>
+  <li *ngFor="let seat of seats">{{ seat.name }} - {{ seat.status }}</li>
+</ul>
+
+<!-- Display Seat Layout -->
+<h3>Seat Layout:</h3>
+<div *ngFor="let row of coach; let rowIndex = index" class="row">
+  <span
+    *ngFor="let seat of row; let seatIndex = index"
+    [style.background-color]="
+      availability[rowIndex][seatIndex] ? 'lightgreen' : 'red'
+    "
+    class="seat"
+  >
+    {{ availability[rowIndex][seatIndex] ? seat : 'X' }}
+  </span>
+</div>
